@@ -1,13 +1,27 @@
 #!/usr/bin/env bash
 
 TEST=$1
+NETCAT=$(which nc)
+
+
+if [ ! -f ${NETCAT} ]; then
+    NETCAT=$(which gnetcat)
+    if [ ! -f ${NETCAT} ]; then
+      echo -n '[!] Failed to locate required utility NetCat'
+      exit 1
+    fi
+fi
+
+
 
 . ../resty -W
+
+
 
 # run tests to check that the correct request is being made
 ( j=1
   while true; do
-    gnetcat -l -w 2 -p 9090 -e './lilhttpd -I' localhost || break
+    ${NETCAT} -l -w 2 -p 9090 -e './lilhttpd -I' localhost || break
     grep '^# TEST [0-9][0-9]*' $TEST |head -$j |tail -1 |sed 's/^#/# [REQ]/'
     j=$((j+1))
   done )&
@@ -19,7 +33,7 @@ wait
 # run tests again, this time checking actual output
 ( j=1
   while true; do
-    gnetcat -l -w 2 -p 9090 -e ./lilhttpd localhost || break
+    ${NETCAT} -l -w 2 -p 9090 -e ./lilhttpd localhost || break
     grep '^# TEST [0-9][0-9]*' $TEST |head -$j |tail -1 |sed 's/^#/# [OUT]/'
     j=$((j+1))
   done )&
