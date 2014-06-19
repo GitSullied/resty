@@ -2,12 +2,17 @@
 # resty - A tiny command line REST interface for bash and zsh.
 #
 # Fork me on github:
-#   http://github.com/micha/resty
+#   http://github.com/GitSullied/resty
 #
 # Author:
 #   Micha Niskin <micha@thinkminimo.com>
 #   Copyright 2009, no rights reserved.
 #
+# -=Contributer=-
+#   Scott Sullivan 
+#      @GuyHoozdis (Twitter)
+#      @GitSullied (GitHub)
+#   http://XeeMe.com/GuyHoozdis
 
 export _resty_host=""
 export _resty_path=""
